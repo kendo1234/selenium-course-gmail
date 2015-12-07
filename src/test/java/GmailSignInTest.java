@@ -1,3 +1,6 @@
+import com.appsenseca.pageobjects.EmailHomePage;
+import com.appsenseca.pageobjects.SignInPage;
+import com.appsenseca.util.WebUtil;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,35 +19,29 @@ public class GmailSignInTest {
     @Test
     public void gmailloginshouldbesuccessful(){
         //1. Go to gmail
+        SignInPage signInPage = WebUtil.goToSignInPage(driver);
 
-        driver.get("http://mail.google.com");
         //2. Fill in username
-        WebElement usernameTextbox = driver.findElement(By.id("Email"));
-        usernameTextbox.clear();
-        usernameTextbox.sendKeys("kendomustdie@googlemail.com");
+        signInPage.fillInUsername(driver, "kendomustdie@googlemail.com");
+
         //For new gmail, click next is needed
         WebElement nextButton = driver.findElement(By.id("next"));
         nextButton.click();
+
         //3. Fill in password
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        WebElement passwordTextbox = driver.findElement(By.id("Passwd"));
-        passwordTextbox.clear();
-        passwordTextbox.sendKeys("caprimanga");
+        signInPage.fillInPassword(driver, "caprimanga");
+
         //4. click sign in
-        WebElement signInButton = driver.findElement(By.id("signIn"));
-        signInButton.click();
+        EmailHomePage emailHomePage = signInPage.clickSignIn(driver);
+
         //5. verify user did sign in
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-       wait.until(ExpectedConditions.visibilityOfElementLocated(By.partialLinkText("Inbox")));
-        Assert.assertTrue("Inbox should exist",driver.findElements(By.partialLinkText("Inbox")).size()>0);
+        Assert.assertTrue("Inbox should exist", emailHomePage.doesInboxExist(driver));
+
         //6. sign out
-       WebElement profileButton = driver.findElement(By.cssSelector("span[class='gb_Ka gbii']"));
-        profileButton.click();
-        WebElement signOutLinkage = driver.findElement(By.id("gb_71"));
-        signOutLinkage.click();
+        signInPage = emailHomePage.signOut(driver);
+
         //7. verified user did sign out
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signIn")));
-        Assert.assertTrue("signIn button should exist",driver.findElements(By.id("signIn")).size()>0);
+        Assert.assertTrue("signIn button should exist", signInPage.doesSignInButtonExist(driver));
 
     }
 
