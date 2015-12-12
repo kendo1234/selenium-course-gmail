@@ -1,5 +1,6 @@
 package com.appsenseca.pageobjects;
 
+import com.appsenseca.util.WebUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,30 +12,25 @@ import java.util.concurrent.TimeUnit;
 
 public class SignInPage {
     public void fillInUsername(WebDriver driver, String s) {
-        WebElement usernameTextbox = driver.findElement(By.id("Email"));
-        usernameTextbox.clear();
-        usernameTextbox.sendKeys("kendomustdie@googlemail.com");
+        WebUtil.clearAndSendKeys(driver, By.id("Email"), s);
+
     }
 
     public void fillInPassword(WebDriver driver, String s) {
+        WebUtil.clearAndSendKeys(driver, By.id("Passwd"), s);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        WebElement passwordTextbox = driver.findElement(By.id("Passwd"));
-        passwordTextbox.clear();
-        passwordTextbox.sendKeys(s);
 
     }
 
     public EmailHomePage clickSignIn(WebDriver driver) {
-        WebElement signInButton = driver.findElement(By.id("signIn"));
-        signInButton.click();
+        WebUtil.click(driver, By.id("signIn"));
 
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.partialLinkText("Inbox")));
+        WebUtil.waitForElementVisible(driver, By.partialLinkText("Inbox"));
 
         return PageFactory.initElements(driver, EmailHomePage.class);
     }
 
     public boolean doesSignInButtonExist(WebDriver driver) {
-        return driver.findElements(By.id("signIn")).size () > 0;
+        return WebUtil.doesElementExist(driver, By.id("signIn"));
     }
 }

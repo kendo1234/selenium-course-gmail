@@ -36,4 +36,9 @@ public class WebUtil {
         element.clear();
         element.sendKeys(s);
     }
+
+    public static String getElementText(WebDriver driver, By by) {
+        WebElement subjectArea = driver.findElement(by);
+        return subjectArea.getText();
+    }
 }
