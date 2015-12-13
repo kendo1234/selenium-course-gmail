@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class EmailHomePage {
     public SignInPage signOut(WebDriver driver) {
-        WebUtil.click(driver, By.cssSelector("span[class='gb_Ka gbii']"));
+        WebUtil.click(driver, By.cssSelector("span[class='gb_Ja gbii']"));
 
         WebUtil.click(driver, By.id("gb_71"));
 

@@ -17,8 +17,8 @@ public class SignInPage {
     }
 
     public void fillInPassword(WebDriver driver, String s) {
-        WebUtil.clearAndSendKeys(driver, By.id("Passwd"), s);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        WebUtil.clearAndSendKeys(driver, By.id("Passwd"), s);
 
     }
 

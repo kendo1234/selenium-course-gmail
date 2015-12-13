@@ -1,3 +1,5 @@
+import com.appsenseca.Categories.Critical;
+import com.appsenseca.Categories.Major;
 import com.appsenseca.pageobjects.EmailHomePage;
 import com.appsenseca.pageobjects.EmailViewPage;
 import com.appsenseca.pageobjects.SignInPage;
@@ -5,6 +7,7 @@ import com.appsenseca.util.WebUtil;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -17,6 +20,8 @@ import java.util.concurrent.TimeUnit;
 
 public class GmailSignInTest {
     WebDriver driver  = new FirefoxDriver();
+
+    @Category({Critical.class})
     @Test
     public void gmailloginshouldbesuccessful(){
         //1. Go to gmail
@@ -45,7 +50,7 @@ public class GmailSignInTest {
         Assert.assertTrue("signIn button should exist", signInPage.doesSignInButtonExist(driver));
 
     }
-
+    @Category({Major.class})
     @Test
     public void gmailSendAndRecieveEmail() {
 
@@ -101,7 +106,7 @@ public class GmailSignInTest {
         Assert.assertEquals("Body Text should be same", body, actualBody);
 
         //Sign Out.
-         emailHomePage.signOut(driver);
+        emailHomePage.signOut(driver);
 
 
     }
